@@ -1,5 +1,6 @@
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.NamedType;
 import inheritance.Animal;
 import inheritance.Cat;
 import inheritance.Dog;
@@ -14,10 +15,10 @@ public class AnimalTest {
     @JsonTypeInfo(
             use = JsonTypeInfo.Id.NAME,
             property = "@type")
-    @JsonSubTypes({
-            @JsonSubTypes.Type(value = Cat.class, name = "cat"),
-            @JsonSubTypes.Type(value = Dog.class, name = "dog")
-    })
+//    @JsonSubTypes({
+//            @JsonSubTypes.Type(value = Cat.class, name = "cat"),
+//            @JsonSubTypes.Type(value = Dog.class, name = "dog")
+//    })
     public static abstract class AnimalMixIn {
     }
 
@@ -38,6 +39,9 @@ public class AnimalTest {
         OBJECT_MAPPER.addMixIn(Animal.class, AnimalMixIn.class);
         OBJECT_MAPPER.addMixIn(Cat.class, CatMixIn.class);
         OBJECT_MAPPER.addMixIn(Dog.class, DogMixIn.class);
+        // dynamic parts !
+        OBJECT_MAPPER.registerSubtypes(new NamedType(Cat.class, "cat"),
+                new NamedType(Dog.class, "dog"));
     }
 
     @Test
