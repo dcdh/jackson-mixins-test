@@ -36,10 +36,10 @@ public class AnimalTest {
 
     static {
         OBJECT_MAPPER.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        // dynamic parts !
         OBJECT_MAPPER.addMixIn(Animal.class, AnimalMixIn.class);
         OBJECT_MAPPER.addMixIn(Cat.class, CatMixIn.class);
         OBJECT_MAPPER.addMixIn(Dog.class, DogMixIn.class);
-        // dynamic parts !
         OBJECT_MAPPER.registerSubtypes(new NamedType(Cat.class, "cat"),
                 new NamedType(Dog.class, "dog"));
     }
